@@ -1,5 +1,4 @@
 import os, sys, getopt, time
-from subprocess import Popen, PIPE
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
