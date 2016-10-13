@@ -9,7 +9,14 @@ def login_url(username,password,url):
     width = 1024
     height = 768
 
-    driver = webdriver.PhantomJS() 
+    ###
+    user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.57 Safari/537.36")
+    dcap = dict(DesiredCapabilities.PHANTOMJS)
+    dcap["phantomjs.page.settings.userAgent"] = user_agent
+    serv_args = ["--disk-cache=false"]
+    driver = webdriver.PhantomJS(desired_capabilities = dcap, service_args = serv_args)
+    ### 
+    
     driver.get(url)
 
     assert "Gmail" in driver.title
@@ -30,12 +37,15 @@ def login_url(username,password,url):
 
     #do_snap
     driver.set_window_size(width, height) 
-    time.sleep(1)
-    driver.save_screenshot('ss.jpg')
-    driver.quit()
-    driver.manage().deleteAllCookies();
-    print 'Archivo creado ss.jpg!'
     
+    timestr = time.strftime("%d%m%Y_%H%M%S")
+    ssfile = 'ss_'+timestr+'.jpg'
+    
+    time.sleep(2)
+    driver.save_screenshot(ssfile)
+    print 'Archivo creado : '+ssfile
+    driver.delete_all_cookies()
+    driver.quit()
 
 def main(argv):
     username = ''
